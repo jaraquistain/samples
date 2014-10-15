@@ -1,0 +1,11 @@
+<script type="text/ng-template" id="sis-directive-embed-template">
+<div class="sis-icon-input-wrap sis-icon-globe sis-embed">
+	<div ng-if="loadingData" class="e-preview-spinner" sis-loader="small"></div>
+	<input class="e-input sis-input" placeholder="http://" type="text" ng-model="embedString" ng-change="checkForEmpty()">
+	<div class="e-btn-wrap">
+		<button ng-show="!stringProcessed" class="e-btn e-btn-preview sis-button-tertiary" ng-click="processEmbedString($event)">PREVIEW</button>
+		<button ng-show="stringProcessed && autoSubmitBtn" class="e-btn e-btn-embed sis-button-tertiary">EMBED</button>
+	</div>
+	<div ng-show="myPreview" class="e-preview-wrap"></div>
+</div>
+</script>

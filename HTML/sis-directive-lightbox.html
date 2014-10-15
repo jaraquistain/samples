@@ -1,0 +1,20 @@
+<script type="text/ng-template" id="sis-directive-lightbox-template">
+    <!--<div class="centerBox"></div>-->
+    <div ng-class="{'show': showLightbox}" class="sis-lightbox">
+        <span class="sis-lightbox-close sis-lightbox-control sis-icon-x" ng-click="hide()"></span>
+        <div class="sis-lightbox-controls" ng-show="data.length > 1">
+            <span ng-hide="hideControls" class="sis-lightbox-control sis-icon-less-than prev" ng-click="prev()"></span>
+            <span ng-hide="hideControls" class="sis-lightbox-control sis-icon-greater-than next" ng-click="next()"></span>
+        </div>
+
+        <div class="sis-lightbox-wrap">
+            <div class="sis-lightbox-slide sis-lightbox-slide-0" ng-style="{'visibility': visibility}"></div>
+            <div class="sis-lightbox-slide sis-lightbox-slide-1" ng-class="{'zoom': zoom}"></div>
+            <div class="sis-lightbox-slide sis-lightbox-slide-2" ng-style="{'visibility': visibility}"></div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="sis-directive-lightbox-slide-template">
+    <div id="slide-asset-{{_item.id}}" class="sis-lightbox-slide-asset" asset="_item" full asset-size="large" ng-class="{'resized': _item.resized}" ng-style="{'height': _item.normalizedSizes.height, 'width': _item.normalizedSizes.width}"></div>
+</script>
+

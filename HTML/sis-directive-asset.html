@@ -1,0 +1,150 @@
+<!-- ****************************** UPLOADING ****************************** -->
+<script type="text/ng-template" id="sis-directive-asset-uploading-template">
+    <div class="sis-asset-wrap sis-directive-asset-uploading-wrap" ng-class="{'sis-directive-asset-processing': data.state == 'processing', 'sis-directive-asset-uploading': data.state == 'uploading'}" data-id="{{data.id}}">
+        <p class="sis-directive-asset-state" ng-show="data.state">{{data.state}}</p>
+
+        <p class="sis-directive-asset-progress-text" ng-show="data.sizeUploaded && data.sizeTotal">{{data.sizeUploaded}} MB of {{data.sizeTotal}} MB</p>
+
+        <div class="sis-directive-asset-progress">
+            <div class="sis-directive-asset-progress-bar-wrap">
+                <div class="sis-directive-asset-progress-bar" ng-style="{'width': data.progress + '%'}"></div>
+            </div>
+            <span class="sis-icon-x sis-cancel-download" ng-show="data.state == 'uploading'" ng-click="abortUpload(data.id)"></span>
+        </div>
+    </div>
+</script>
+<!-- **************************** END UPLOADING **************************** -->
+
+
+<!-- ****************************** PROCESSING ***************************** -->
+<script type="text/ng-template" id="sis-directive-asset-processing-template">
+    <div class="sis-asset-wrap sis-asset-processing-wrap" ng-style="{'padding-bottom': data.aspectRatioPercent + '%'}">
+        <div class="sis-asset-processing-inner-wrap">
+            <img ng-class="{'loaded': loaded}" class="sis-asset-processing-logo" ng-src="/img/processing/processing_logo_{{data.assetContentType | App.typeFromMime}}.png">
+
+            <p class="sis-asset-processing-text">
+                <span class="sis-asset-processing-text-copy">Don't let me hold you up,</span><br>
+                <span class="sis-asset-processing-text-title" animated-ellipsis>{{data.title}} is processing</span>
+            </p>
+        </div>
+    </div>
+</script>
+<!-- **************************** END PROCESSING *************************** -->
+
+<!-- ****************************** ERROR ***************************** -->
+<script type="text/ng-template" id="sis-directive-asset-error-template">
+    <div class="sis-asset-wrap sis-asset-image-wrap sis-asset-error-wrap sis-asset-iframe-ratio-16-9"">
+        <img alt="" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSI3MiAxNzEuMzI0IDM3Mi45NDMgMjA5Ljc4IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxnPg0KCQk8cGF0aCBmaWxsPSIjRUQyMjI0IiBkPSJNMjcyLjY0MywyMzAuOTM1bDIwLjMzOSwyMC4zMzlsLTE0LjI3NywxNC4yNzdsLTIwLjMzOS0yMC4zMzlsLTIzLjQ1NSwyMy40NTVsLTE1LjY5My0xNS42OTMNCgkJCWwyMy40NTUtMjMuNDU1bC0yMC41MDktMjAuNTA5bDE0LjI3Ny0xNC4yNzdsMjAuNTA5LDIwLjUwOWwyMi4zMjItMjIuMzIybDE1LjY5MywxNS42OTNMMjcyLjY0MywyMzAuOTM1eiIvPg0KCTwvZz4NCgk8Zz4NCgkJPHBhdGggZmlsbD0iI0VEMjIyNCIgZD0iTTIxNi44ODEsMzA3LjQyOGgtMTAuNnY3LjI5NWgxMi4zOTN2My45NTVoLTE3LjUyNXYtMjUuNTk0aDE3LjQ5djMuOTU1aC0xMi4zNTd2Ni40MzRoMTAuNlYzMDcuNDI4eiIvPg0KCQk8cGF0aCBmaWxsPSIjRUQyMjI0IiBkPSJNMjI2Ljk1NCwzMDguNDQ4djEwLjIzaC01LjEzM3YtMjUuNTk0aDkuNjVjMi45MTgsMCw1LjIsMC42NjUsNi44NDcsMS45OTVzMi40NywzLjE4NSwyLjQ3LDUuNTYzDQoJCQljMCwxLjMyNC0wLjM0NiwyLjQ2MS0xLjAzNywzLjQxcy0xLjcwNSwxLjcxNy0zLjA0MSwyLjMwM2MxLjUxMiwwLjQ0NSwyLjU5OSwxLjE4OSwzLjI2MSwyLjIzMnMwLjk5MywyLjMzMiwwLjk5MywzLjg2N3YxLjg4MQ0KCQkJYzAsMC43MTUsMC4wOTcsMS40NjIsMC4yOSwyLjI0MXMwLjUyNCwxLjM1NiwwLjk5MywxLjczMXYwLjM2OWgtNS4yOTFjLTAuNDY5LTAuMzc1LTAuNzczLTEuMDAyLTAuOTE0LTEuODgxDQoJCQlzLTAuMjExLTEuNzExLTAuMjExLTIuNDk2di0xLjgxMWMwLTEuMjc3LTAuMzQ5LTIuMjcxLTEuMDQ2LTIuOTc5cy0xLjY3OS0xLjA2My0yLjk0NC0xLjA2M0gyMjYuOTU0eiBNMjI2Ljk1NCwzMDQuNDkzaDQuNDMNCgkJCWMxLjQ0MSwwLDIuNTE3LTAuMzA1LDMuMjI2LTAuOTE0czEuMDYzLTEuNTEyLDEuMDYzLTIuNzA3YzAtMS4xNzItMC4zNTQtMi4xMDQtMS4wNjMtMi43OTVzLTEuNzU1LTEuMDM3LTMuMTM4LTEuMDM3aC00LjUxOA0KCQkJVjMwNC40OTN6Ii8+DQoJCTxwYXRoIGZpbGw9IiNFRDIyMjQiIGQ9Ik0yNTAuNzU0LDMwOC40NDh2MTAuMjNoLTUuMTMzdi0yNS41OTRoOS42NWMyLjkxOCwwLDUuMiwwLjY2NSw2Ljg0NywxLjk5NXMyLjQ3LDMuMTg1LDIuNDcsNS41NjMNCgkJCWMwLDEuMzI0LTAuMzQ2LDIuNDYxLTEuMDM3LDMuNDFzLTEuNzA1LDEuNzE3LTMuMDQxLDIuMzAzYzEuNTEyLDAuNDQ1LDIuNTk5LDEuMTg5LDMuMjYxLDIuMjMyczAuOTkzLDIuMzMyLDAuOTkzLDMuODY3djEuODgxDQoJCQljMCwwLjcxNSwwLjA5NywxLjQ2MiwwLjI5LDIuMjQxczAuNTI0LDEuMzU2LDAuOTkzLDEuNzMxdjAuMzY5aC01LjI5MWMtMC40NjktMC4zNzUtMC43NzMtMS4wMDItMC45MTQtMS44ODENCgkJCXMtMC4yMTEtMS43MTEtMC4yMTEtMi40OTZ2LTEuODExYzAtMS4yNzctMC4zNDktMi4yNzEtMS4wNDYtMi45NzlzLTEuNjc5LTEuMDYzLTIuOTQ0LTEuMDYzSDI1MC43NTR6IE0yNTAuNzU0LDMwNC40OTNoNC40Mw0KCQkJYzEuNDQxLDAsMi41MTctMC4zMDUsMy4yMjYtMC45MTRzMS4wNjMtMS41MTIsMS4wNjMtMi43MDdjMC0xLjE3Mi0wLjM1NC0yLjEwNC0xLjA2My0yLjc5NXMtMS43NTUtMS4wMzctMy4xMzgtMS4wMzdoLTQuNTE4DQoJCQlWMzA0LjQ5M3oiLz4NCgkJPHBhdGggZmlsbD0iI0VEMjIyNCIgZD0iTTI5MC4wMDYsMzA4LjE4NGMwLDMuMTQxLTAuOTkzLDUuNzM2LTIuOTc5LDcuNzg3cy00LjU2NywzLjA3Ni03Ljc0MywzLjA3Ng0KCQkJYy0zLjE1MiwwLTUuNzEzLTEuMDI1LTcuNjgyLTMuMDc2cy0yLjk1My00LjY0Ni0yLjk1My03Ljc4N3YtNC42MDVjMC0zLjEyOSwwLjk4MS01LjcyMiwyLjk0NC03Ljc3OHM0LjUyMS0zLjA4NSw3LjY3My0zLjA4NQ0KCQkJYzMuMTc2LDAsNS43NiwxLjAyOCw3Ljc1MiwzLjA4NXMyLjk4OCw0LjY0OSwyLjk4OCw3Ljc3OFYzMDguMTg0eiBNMjg0Ljg3NCwzMDMuNTU3YzAtMS45OTYtMC40OTgtMy42MzQtMS40OTQtNC45MTQNCgkJCXMtMi4zNjctMS45Mi00LjExMy0xLjkycy0zLjEsMC42MzctNC4wNjEsMS45MTFjLTAuOTYxLDEuMjczLTEuNDQxLDIuOTE1LTEuNDQxLDQuOTIzdjQuNjQ4YzAsMi4wMzIsMC40ODYsMy42ODgsMS40NTksNC45NjcNCgkJCWMwLjk3MywxLjI4LDIuMzI2LDEuOTIsNC4wNjEsMS45MmMxLjc1OCwwLDMuMTI5LTAuNjQsNC4xMTMtMS45MmMwLjk4NC0xLjI3OSwxLjQ3Ny0yLjkzNSwxLjQ3Ny00Ljk2N1YzMDMuNTU3eiIvPg0KCQk8cGF0aCBmaWxsPSIjRUQyMjI0IiBkPSJNMjk5LjE0NywzMDguNDQ4djEwLjIzaC01LjEzM3YtMjUuNTk0aDkuNjVjMi45MTgsMCw1LjIsMC42NjUsNi44NDYsMS45OTVzMi40NywzLjE4NSwyLjQ3LDUuNTYzDQoJCQljMCwxLjMyNC0wLjM0NiwyLjQ2MS0xLjAzNywzLjQxcy0xLjcwNSwxLjcxNy0zLjA0MSwyLjMwM2MxLjUxMiwwLjQ0NSwyLjU5OSwxLjE4OSwzLjI2MSwyLjIzMnMwLjk5MywyLjMzMiwwLjk5MywzLjg2N3YxLjg4MQ0KCQkJYzAsMC43MTUsMC4wOTcsMS40NjIsMC4yOSwyLjI0MXMwLjUyNCwxLjM1NiwwLjk5MywxLjczMXYwLjM2OWgtNS4yOTFjLTAuNDY5LTAuMzc1LTAuNzczLTEuMDAyLTAuOTE0LTEuODgxDQoJCQlzLTAuMjExLTEuNzExLTAuMjExLTIuNDk2di0xLjgxMWMwLTEuMjc3LTAuMzQ5LTIuMjcxLTEuMDQ1LTIuOTc5Yy0wLjY5Ny0wLjcwOS0xLjY3OS0xLjA2My0yLjk0NC0xLjA2M0gyOTkuMTQ3eg0KCQkJIE0yOTkuMTQ3LDMwNC40OTNoNC40M2MxLjQ0MSwwLDIuNTE3LTAuMzA1LDMuMjI2LTAuOTE0YzAuNzA4LTAuNjA5LDEuMDYzLTEuNTEyLDEuMDYzLTIuNzA3YzAtMS4xNzItMC4zNTQtMi4xMDQtMS4wNjMtMi43OTUNCgkJCWMtMC43MDktMC42OTEtMS43NTUtMS4wMzctMy4xMzgtMS4wMzdoLTQuNTE4VjMwNC40OTN6Ii8+DQoJCTxwYXRoIGZpbGw9IiNFRDIyMjQiIGQ9Ik0xNTMuOTYsMzQzLjU5N3Y5LjI4MWgtNS4xMzN2LTI1LjU5NGgxMC4xOTVjMi45NDEsMCw1LjI1NiwwLjc1LDYuOTQzLDIuMjVzMi41MzEsMy40NzUsMi41MzEsNS45MjQNCgkJCXMtMC44NDQsNC40MTgtMi41MzEsNS45MDZzLTQuMDAyLDIuMjMyLTYuOTQzLDIuMjMySDE1My45NnogTTE1My45NiwzMzkuNjQyaDUuMDYyYzEuNDMsMCwyLjUxNC0wLjM5LDMuMjUyLTEuMTY5DQoJCQlzMS4xMDctMS43NzIsMS4xMDctMi45NzljMC0xLjIzLTAuMzY2LTIuMjQ3LTEuMDk5LTMuMDVzLTEuODE5LTEuMjA0LTMuMjYxLTEuMjA0aC01LjA2MlYzMzkuNjQyeiIvPg0KCQk8cGF0aCBmaWxsPSIjRUQyMjI0IiBkPSJNMTc3LjQxLDM0Mi42NDh2MTAuMjNoLTUuMTMzdi0yNS41OTRoOS42NWMyLjkxOCwwLDUuMiwwLjY2NSw2Ljg0NywxLjk5NXMyLjQ3LDMuMTg1LDIuNDcsNS41NjMNCgkJCWMwLDEuMzI0LTAuMzQ2LDIuNDYxLTEuMDM3LDMuNDFzLTEuNzA1LDEuNzE3LTMuMDQxLDIuMzAzYzEuNTEyLDAuNDQ1LDIuNTk5LDEuMTg5LDMuMjYxLDIuMjMyczAuOTkzLDIuMzMyLDAuOTkzLDMuODY3djEuODgxDQoJCQljMCwwLjcxNSwwLjA5NywxLjQ2MiwwLjI5LDIuMjQxczAuNTI0LDEuMzU2LDAuOTkzLDEuNzMxdjAuMzY5aC01LjI5MWMtMC40NjktMC4zNzUtMC43NzMtMS4wMDItMC45MTQtMS44ODENCgkJCXMtMC4yMTEtMS43MTEtMC4yMTEtMi40OTZ2LTEuODExYzAtMS4yNzctMC4zNDktMi4yNzEtMS4wNDYtMi45NzlzLTEuNjc5LTEuMDYzLTIuOTQ0LTEuMDYzSDE3Ny40MXogTTE3Ny40MSwzMzguNjkzaDQuNDMNCgkJCWMxLjQ0MSwwLDIuNTE3LTAuMzA1LDMuMjI2LTAuOTE0czEuMDYzLTEuNTEyLDEuMDYzLTIuNzA3YzAtMS4xNzItMC4zNTQtMi4xMDQtMS4wNjMtMi43OTVzLTEuNzU1LTEuMDM3LTMuMTM4LTEuMDM3aC00LjUxOA0KCQkJVjMzOC42OTN6Ii8+DQoJCTxwYXRoIGZpbGw9IiNFRDIyMjQiIGQ9Ik0yMTYuNjYyLDM0Mi4zODRjMCwzLjE0MS0wLjk5Myw1LjczNi0yLjk3OSw3Ljc4N3MtNC41NjcsMy4wNzYtNy43NDMsMy4wNzYNCgkJCWMtMy4xNTIsMC01LjcxMy0xLjAyNS03LjY4Mi0zLjA3NnMtMi45NTMtNC42NDYtMi45NTMtNy43ODd2LTQuNjA1YzAtMy4xMjksMC45ODEtNS43MjIsMi45NDQtNy43NzhzNC41MjEtMy4wODUsNy42NzMtMy4wODUNCgkJCWMzLjE3NiwwLDUuNzYsMS4wMjgsNy43NTIsMy4wODVzMi45ODgsNC42NDksMi45ODgsNy43NzhWMzQyLjM4NHogTTIxMS41MjksMzM3Ljc1N2MwLTEuOTk2LTAuNDk4LTMuNjM0LTEuNDk0LTQuOTE0DQoJCQlzLTIuMzY3LTEuOTItNC4xMTMtMS45MnMtMy4xLDAuNjM3LTQuMDYxLDEuOTExYy0wLjk2MSwxLjI3My0xLjQ0MSwyLjkxNS0xLjQ0MSw0LjkyM3Y0LjY0OGMwLDIuMDMyLDAuNDg2LDMuNjg4LDEuNDU5LDQuOTY3DQoJCQljMC45NzMsMS4yOCwyLjMyNiwxLjkyLDQuMDYxLDEuOTJjMS43NTgsMCwzLjEyOS0wLjY0LDQuMTEzLTEuOTJjMC45ODQtMS4yNzksMS40NzctMi45MzUsMS40NzctNC45NjdWMzM3Ljc1N3oiLz4NCgkJPHBhdGggZmlsbD0iI0VEMjIyNCIgZD0iTTIzOS45ODgsMzQ0LjE2bDAuMDM1LDAuMTA1YzAuMDQ3LDIuNzU0LTAuNzk0LDQuOTM5LTIuNTIyLDYuNTU3cy00LjEyOCwyLjQyNi03LjE5OCwyLjQyNg0KCQkJYy0zLjA4MiwwLTUuNTg0LTAuOTktNy41MDYtMi45NzFzLTIuODgzLTQuNTI5LTIuODgzLTcuNjQ2di01LjA4YzAtMy4xMDUsMC45MzgtNS42NTQsMi44MTItNy42NDZzNC4zMTItMi45ODgsNy4zMTItMi45ODgNCgkJCWMzLjE2NCwwLDUuNjM3LDAuODEyLDcuNDE4LDIuNDM1czIuNjQ4LDMuODM1LDIuNjAyLDYuNjM2bC0wLjAzNSwwLjEwNWgtNC45OTJjMC0xLjY4OC0wLjQwNC0yLjk3OS0xLjIxMy0zLjg3Ng0KCQkJcy0yLjA2OC0xLjM0NS0zLjc3OS0xLjM0NWMtMS41MzUsMC0yLjc1NCwwLjYyMy0zLjY1NiwxLjg3cy0xLjM1NCwyLjgzNy0xLjM1NCw0Ljc2OXY1LjEwOWMwLDEuOTU2LDAuNDc1LDMuNTU3LDEuNDI0LDQuODA0DQoJCQlzMi4yMzIsMS44NywzLjg1LDEuODdjMS42MDUsMCwyLjc5Mi0wLjQzMSwzLjU2LTEuMjkyczEuMTUxLTIuMTQyLDEuMTUxLTMuODQxSDIzOS45ODh6Ii8+DQoJCTxwYXRoIGZpbGw9IiNFRDIyMjQiIGQ9Ik0yNTkuNDEyLDM0MS42MjhoLTEwLjZ2Ny4yOTVoMTIuMzkzdjMuOTU1aC0xNy41MjV2LTI1LjU5NGgxNy40OXYzLjk1NWgtMTIuMzU3djYuNDM0aDEwLjZWMzQxLjYyOHoiLz4NCgkJPHBhdGggZmlsbD0iI0VEMjIyNCIgZD0iTTI3OC4xNjcsMzQ2LjE5OWMwLTAuOTg0LTAuMzQ5LTEuNzc1LTEuMDQ2LTIuMzczcy0xLjkxOS0xLjE2LTMuNjY1LTEuNjg4DQoJCQljLTMuMDQ3LTAuODc5LTUuMzUtMS45MjItNi45MDgtMy4xMjlzLTIuMzM4LTIuODU5LTIuMzM4LTQuOTU3czAuODk0LTMuODEyLDIuNjgxLTUuMTQyczQuMDY5LTEuOTk1LDYuODQ3LTEuOTk1DQoJCQljMi44MTIsMCw1LjEwNCwwLjc0Nyw2Ljg3MywyLjI0MXMyLjYyNSwzLjMzNywyLjU2Niw1LjUyOGwtMC4wMzUsMC4xMDVoLTQuOTc1YzAtMS4xODQtMC4zOTYtMi4xNDItMS4xODctMi44NzQNCgkJCXMtMS45MDEtMS4wOTktMy4zMzEtMS4wOTljLTEuMzcxLDAtMi40MzIsMC4zMDUtMy4xODIsMC45MTRzLTEuMTI1LDEuMzg5LTEuMTI1LDIuMzM4YzAsMC44NjcsMC40MDEsMS41NzksMS4yMDQsMi4xMzYNCgkJCXMyLjE4OCwxLjE0Niw0LjE1NywxLjc2N2MyLjgyNCwwLjc4NSw0Ljk2MywxLjgyMiw2LjQxNiwzLjExMXMyLjE4LDIuOTgyLDIuMTgsNS4wOGMwLDIuMTkxLTAuODY0LDMuOTItMi41OTMsNS4xODYNCgkJCXMtNC4wMTEsMS44OTgtNi44NDcsMS44OThjLTIuNzg5LDAtNS4yMjEtMC43MTgtNy4yOTUtMi4xNTNzLTMuMDgyLTMuNDQ4LTMuMDIzLTYuMDM4bDAuMDM1LTAuMTA1aDQuOTkyDQoJCQljMCwxLjUyMywwLjQ2NiwyLjY0LDEuMzk3LDMuMzQ5czIuMjI5LDEuMDYzLDMuODk0LDEuMDYzYzEuMzk1LDAsMi40NjEtMC4yODcsMy4xOTktMC44NjFTMjc4LjE2NywzNDcuMTYsMjc4LjE2NywzNDYuMTk5eiIvPg0KCQk8cGF0aCBmaWxsPSIjRUQyMjI0IiBkPSJNMzAxLjAwMSwzNDYuMTk5YzAtMC45ODQtMC4zNDktMS43NzUtMS4wNDYtMi4zNzNzLTEuOTE5LTEuMTYtMy42NjUtMS42ODgNCgkJCWMtMy4wNDctMC44NzktNS4zNS0xLjkyMi02LjkwOC0zLjEyOXMtMi4zMzgtMi44NTktMi4zMzgtNC45NTdzMC44OTQtMy44MTIsMi42ODEtNS4xNDJzNC4wNjktMS45OTUsNi44NDctMS45OTUNCgkJCWMyLjgxMiwwLDUuMTA0LDAuNzQ3LDYuODczLDIuMjQxczIuNjI1LDMuMzM3LDIuNTY2LDUuNTI4bC0wLjAzNSwwLjEwNWgtNC45NzVjMC0xLjE4NC0wLjM5Ni0yLjE0Mi0xLjE4Ny0yLjg3NA0KCQkJcy0xLjkwMS0xLjA5OS0zLjMzMS0xLjA5OWMtMS4zNzEsMC0yLjQzMiwwLjMwNS0zLjE4MiwwLjkxNHMtMS4xMjUsMS4zODktMS4xMjUsMi4zMzhjMCwwLjg2NywwLjQwMSwxLjU3OSwxLjIwNCwyLjEzNg0KCQkJczIuMTg4LDEuMTQ2LDQuMTU3LDEuNzY3YzIuODI0LDAuNzg1LDQuOTYzLDEuODIyLDYuNDE2LDMuMTExczIuMTgsMi45ODIsMi4xOCw1LjA4YzAsMi4xOTEtMC44NjQsMy45Mi0yLjU5Myw1LjE4Ng0KCQkJcy00LjAxMSwxLjg5OC02Ljg0NywxLjg5OGMtMi43ODksMC01LjIyMS0wLjcxOC03LjI5NS0yLjE1M3MtMy4wODItMy40NDgtMy4wMjMtNi4wMzhsMC4wMzUtMC4xMDVoNC45OTINCgkJCWMwLDEuNTIzLDAuNDY2LDIuNjQsMS4zOTcsMy4zNDlzMi4yMjksMS4wNjMsMy44OTQsMS4wNjNjMS4zOTUsMCwyLjQ2MS0wLjI4NywzLjE5OS0wLjg2MVMzMDEuMDAxLDM0Ny4xNiwzMDEuMDAxLDM0Ni4xOTl6Ii8+DQoJCTxwYXRoIGZpbGw9IiNFRDIyMjQiIGQ9Ik0zMTUuNDY4LDM1Mi44NzhoLTUuMTMzdi0yNS41OTRoNS4xMzNWMzUyLjg3OHoiLz4NCgkJPHBhdGggZmlsbD0iI0VEMjIyNCIgZD0iTTM0MS4yNzIsMzUyLjg3OGgtNS4xMTVsLTEwLjMzNi0xNy40OWwtMC4xMDUsMC4wMTh2MTcuNDczaC01LjEzM3YtMjUuNTk0aDUuMTMzbDEwLjMzNiwxNy40NzMNCgkJCWwwLjEwNS0wLjAxOHYtMTcuNDU1aDUuMTE1VjM1Mi44Nzh6Ii8+DQoJCTxwYXRoIGZpbGw9IiNFRDIyMjQiIGQ9Ik0zNjUuNzI0LDM0OS4zOGMtMC43NjIsMS4wMDgtMS45NDgsMS45MDQtMy41NiwyLjY4OXMtMy42NDcsMS4xNzgtNi4xMDgsMS4xNzgNCgkJCWMtMy4xMjksMC01LjY4NC0wLjk3My03LjY2NC0yLjkxOHMtMi45NzEtNC40NzEtMi45NzEtNy41NzZ2LTUuMzQ0YzAtMy4wOTQsMC45NTItNS42MTYsMi44NTYtNy41NjdzNC4zNTYtMi45MjcsNy4zNTYtMi45MjcNCgkJCWMzLjExNywwLDUuNTA1LDAuNzU5LDcuMTYzLDIuMjc2czIuNTA1LDMuNTEzLDIuNTQsNS45ODVsLTAuMDM1LDAuMTA1aC00LjgzNGMtMC4wOTQtMS4zNTktMC41MjctMi40MzUtMS4zMDEtMy4yMjYNCgkJCXMtMS45MDQtMS4xODctMy4zOTMtMS4xODdjLTEuNTcsMC0yLjgzNiwwLjYwNS0zLjc5NywxLjgxN3MtMS40NDEsMi43NzEtMS40NDEsNC42ODF2NS4zNzNjMCwxLjk0NCwwLjQ5OCwzLjUyMSwxLjQ5NCw0LjczMw0KCQkJczIuMzM4LDEuODE3LDQuMDI1LDEuODE3YzEuMTk1LDAsMi4xNTYtMC4xMjIsMi44ODMtMC4zNjhjMC43MjctMC4yNDUsMS4yNzctMC41NDksMS42NTItMC45MTF2LTQuNzMyaC00LjUzNXYtMy41NTFoOS42NjgNCgkJCVYzNDkuMzh6Ii8+DQoJPC9nPg0KCTxyZWN0IHg9IjcyIiB5PSIxNzEuMzI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNFRDFDMjQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiB3aWR0aD0iMzcyLjk0MyIgaGVpZ2h0PSIyMDkuNzgiLz4NCjwvZz4NCjwvc3ZnPg0K" />
+    </div>
+
+    <!--<div class="sis-asset-wrap sis-asset-processing-wrap" ng-style="{'padding-bottom': data.aspectRatioPercent + '%'}">-->
+        <!--<div class="sis-asset-processing-inner-wrap">-->
+            <!--<img ng-class="{'loaded': loaded}" class="sis-asset-processing-logo" ng-src="/img/processing/processing_logo_{{data.assetContentType | App.typeFromMime}}.png">-->
+
+            <!--<p class="sis-asset-processing-text">-->
+                <!--<span class="sis-asset-processing-text-copy">Don't let me hold you up,</span><br>-->
+                <!--<span class="sis-asset-processing-text-title" animated-ellipsis>{{data.title}} is processing</span>-->
+            <!--</p>-->
+        <!--</div>-->
+    <!--</div>-->
+</script>
+<!-- **************************** END ERROR *************************** -->
+
+<!-- ******************************** IMAGE ******************************** -->
+<script type="text/ng-template" id="sis-directive-asset-image-template">
+    <div class="sis-asset-wrap sis-asset-image-wrap" ng-style="{'padding-bottom': data.aspectRatioPercent + '%', 'margin-top': marginTop}" ng-switch="!!assetLoader">
+        <img ng-class="{'has-cache-cover': cachedImageURL, 'tablet-shim': onTablet}" class="sis-asset-image sis-asset-image-full" data-id="{{data.id}}" onload="$(this).closest('.sis-asset').trigger('load',[this.src])" ng-src="{{imageURL}}">
+        <img ng-show="cachedImageURL " class="sis-asset-image sis-asset-image-cached" data-id="{{data.id}}" ng-src="{{cachedImageURL}}">
+        <div sis-loader spinner="{{assetLoaderSpinner}}" spinner-text="{{assetLoaderText}}" class="light" ng-show="!endOfSet" ng-switch-when="true"></div>
+    </div>
+</script>
+<!-- ****************************** END IMAGE ****************************** -->
+
+<!-- **************************** BGCOVER IMAGE **************************** -->
+<script type="text/ng-template" id="sis-directive-asset-bgcover-template">
+    <div class="sis-asset-wrap sis-asset-image-wrap" ng-style="{'padding-bottom': ((1 / coverRatio) * 100) + '%'}" ng-switch="!!assetLoader">
+        <div ng-class="{'has-cache-cover': cachedImageURL}" class="sis-asset-image sis-asset-bgcover-image sis-asset-image-full" ng-style="{'backgroundImage': 'url(' + imageURL + ')'}" data-id="{{data.id}}"></div>
+        <div sis-loader spinner="{{assetLoaderSpinner}}" spinner-text="{{assetLoaderText}}" class="light" ng-show="!endOfSet" ng-switch-when="true"></div>
+    </div>
+</script>
+<!-- ************************** END BGCOVER IMAGE ************************** -->
+
+<!-- ********************************* PDF ********************************* -->
+<script type="text/ng-template" id="sis-directive-asset-pdf-template">
+    <!--add this to the ng-src to use pdf viewer: '/pdf/viewer/#'-->
+    <div ng-switch="browser" class="sis-asset-wrap sis-asset-embed-wrap sis-asset-iframe-ratio-letter" ng-switch="isTouch">
+        <div class="overlay" ng-switch-when="true"></div>
+        <iframe ng-switch-when="INTERNET EXPLORER" class="sis-asset-iframe sis-asset-iframe-pdf" data-id="{{data.id}}" ng-src="{{'/pdf/viewer/#' + $root.ENV_JSON.CDN + data.id + '.pdf'}}" width="420" height="315" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        <iframe ng-switch-default class="sis-asset-iframe sis-asset-iframe-pdf" data-id="{{data.id}}" ng-src="{{data.cdn + data.id + '.pdf'}}" width="420" height="315" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        <div ng-switch="!!assetLoader">
+            <div sis-loader spinner="{{assetLoaderSpinner}}" spinner-text="{{assetLoaderText}}" class="light" ng-show="!endOfSet" ng-switch-when="true"></div>
+        </div>
+    </div>
+</script>
+<!-- ******************************* END PDF ******************************* -->
+
+
+<!-- ***************************** SLIDESHARE ****************************** -->
+<script type="text/ng-template" id="sis-directive-asset-slideshare-template">
+    <div class="sis-asset-wrap sis-asset-embed-wrap" ng-style="{'padding-bottom': data.aspectRatioPercent + '%'}" ng-switch="isTouch">
+        <div class="overlay" ng-switch-when="true"></div>
+        <iframe class="sis-asset-iframe sis-asset-iframe-slideshare iframe-loaded" data-id="{{data.id}}" ng-src="{{data.assetUrl}}" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        <div ng-switch="!!assetLoader">
+            <div sis-loader spinner="{{assetLoaderSpinner}}" spinner-text="{{assetLoaderText}}" class="light" ng-show="!endOfSet" ng-switch-when="true"></div>
+
+        </div>
+    </div>
+</script>
+<!-- *************************** END SLIDESHARE **************************** -->
+
+
+<!-- ***************************** SOUNDCLOUD ****************************** -->
+<script type="text/ng-template" id="sis-directive-asset-soundcloud-template">
+    <div class="sis-asset-wrap sis-asset-embed-wrap sis-asset-iframe-ratio-soundcloud" ng-switch="isTouch">
+        <div class="overlay" ng-switch-when="true"></div>
+        <iframe class="sis-asset-iframe sis-asset-iframe-soundcloud iframe-loaded" data-id="{{data.id}}" ng-src="{{data.assetUrl}}" width="100%" height="166" scrolling="no" frameborder="no"></iframe>
+        <div ng-switch="!!assetLoader">
+            <div sis-loader spinner="{{assetLoaderSpinner}}" spinner-text="{{assetLoaderText}}" class="light" ng-show="!endOfSet" ng-switch-when="true"></div>
+        </div>
+    </div>
+</script>
+<!-- *************************** END SOUNDCLOUD **************************** -->
+
+
+<!-- ******************************* VIMEO ********************************* -->
+<script type="text/ng-template" id="sis-directive-asset-vimeo-template">
+    <div class="sis-asset-wrap sis-asset-embed-wrap sis-asset-iframe-ratio-16-9" ng-switch="isTouch">
+        <div class="overlay" ng-switch-when="true"></div>
+        <iframe class="sis-asset-iframe sis-asset-iframe-vimeo iframe-loaded" data-id="{{data.id}}" ng-src="{{data.assetUrl}}" width="420" height="315" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        <div ng-switch="!!assetLoader">
+            <div sis-loader spinner="{{assetLoaderSpinner}}" spinner-text="{{assetLoaderText}}" class="light" ng-show="!endOfSet" ng-switch-when="true"></div>
+        </div>
+    </div>
+</script>
+<!-- ***************************** END VIMEO ******************************* -->
+
+
+<!-- ****************************** YOUTUBE ******************************** -->
+<script type="text/ng-template" id="sis-directive-asset-youtube-template">
+
+    <div class="sis-asset-wrap sis-asset-embed-wrap sis-asset-iframe-ratio-16-9">
+        <div class="sis-asset-wrap sis-asset-embed-wrap sis-asset-iframe-ratio-16-9" ng-switch="isTouch">
+            <div ng-switch-when="true" class="overlay"></div>
+            <iframe class="sis-asset-iframe sis-asset-iframe-youtube iframe-loaded" data-id="{{data.id}}" ng-src="{{(data.assetUrl).replace('controls=2','controls=1')}}"  width="420" height="315" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+            <div ng-switch="!!assetLoader">
+                <div sis-loader spinner="{{assetLoaderSpinner}}" spinner-text="{{assetLoaderText}}" class="light" ng-show="!endOfSet" ng-switch-when="true"></div>
+            </div>
+        </div>
+</script>
+<!-- **************************** END YOUTUBE ****************************** -->
+
+
+<!-- ****************************** UNKNOWN ******************************** -->
+<script type="text/ng-template" id="sis-directive-asset-unknown-template">
+    <div class="sis-asset-wrap sis-asset-unknown-wrap">
+        <p>This asset's data is problematic...</p>
+
+        <p>{{data}}</p>
+    </div>
+</script>
+<!-- **************************** END UNKNOWN ****************************** -->

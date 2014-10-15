@@ -1,0 +1,174 @@
+@import "imports/sis-imports";
+
+/*
+.center{
+  position: fixed;
+  background-color: rgba(0,0,255,0.3);
+  height: 10px;
+  width: 10px;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  margin-top: -5px;
+  margin-left: -5px;
+}
+*/
+
+.sis-lightbox {
+    position: fixed;
+    min-height: 100px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.9);
+    left: 0;
+    z-index: 300;
+    @include opacity(0.0001);
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+    top: -100%;
+    @include transition(opacity 218ms linear, height 0ms linear 218ms, top 0ms linear 218ms);
+
+    .overlay{
+      pointer-events: none;
+      //background: rgba(255,0,0,0.5);
+    }
+
+    .loading, .hide{
+      position: fixed;
+      top: -100%;
+      z-index: -1;
+    }
+
+    &.touch{
+      .overlay{
+        pointer-events: auto;
+        //background: rgba(255,0,0,0.5);
+      }
+
+      &.clicking{
+        .overlay{
+          pointer-events: none;
+          //background: rgba(0,255,0,0.5);
+        }
+      }
+    }
+
+
+    &.dragging,
+    &.animating {
+        @include no-select();
+        pointer-events: none;
+
+        img{
+          -webkit-user-drag: none;
+        }
+
+        iframe{
+          pointer-events: none;
+          @include no-select();
+        }
+    }
+
+    &.clicking{
+      .overlay{
+        pointer-events: none;
+      }
+    }
+
+    &.show {
+        @include opacity(0.999);
+        height: 100%;
+        pointer-events: auto;
+        @include transition(opacity 218ms linear);
+        top: 0;
+        bottom: auto;
+    }
+    .sis-lightbox-controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+
+    .sis-lightbox-control {
+        position: relative;
+        $arrow-size: 36px;
+        z-index: 300;
+        @include inline-block();
+        width: ($arrow-size * 5)/($arrow-size * 3);
+        height: ($arrow-size * 5)/($arrow-size * 3);
+        text-align: center;
+        cursor: pointer;
+        padding: ($arrow-size / 3);
+        color: #fff;
+        opacity: 0.5;
+        font-size: $arrow-size;
+        line-height: $arrow-size;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: none;
+        @include text-shadow(0 0 1px #000);
+        &:hover {
+            @include transition(opacity 218ms linear);
+            opacity: 0.999;
+        }
+    }
+    .sis-lightbox-close {
+        position: absolute;
+        padding: 12px;
+        top: 0;
+        left: 0;
+        z-index: 300;
+    }
+    .sis-lightbox-wrap {
+        position: absolute;
+        margin-left: -100%;
+        left: 0;
+        display: table;
+        width: 300%;
+        height: 100%;
+        .sis-lightbox-slide {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            width: 33.3%;
+            padding: 0px 1px;
+            overflow: hidden;
+            @include no-select();
+            /*
+            &.zoom{
+              background: red;
+              .lightbox-slide-asset-container{
+                @include transform(scale3d(4,4,0));
+              }
+
+            }
+            */
+            .sis-asset {
+                margin: 0 auto;
+                &.resized {
+                    opacity: 0.999;
+                    @include transition(opacity 218ms linear);
+                }
+            }
+        }
+        .sis-lightbox-slide-asset{
+          &.clone{
+            .sis-asset-image-wrap{
+              .sis-asset-image {
+                @include opacity(0.999);
+              }
+            }
+          }
+
+          &.hide{
+            display: none;
+          }
+        }
+    }
+}
+

@@ -1,0 +1,15 @@
+<script type="text/ng-template" id="sis-directive-multi-select-template">
+    <div ng-form="multiSelectForm" class="sis-multi-select" ng-class="{'at-max': data.length >= numberOfSelections}">
+        <input ng-if="required" name="multiSelect" type="hidden" ng-model="data" validator-populated-array>
+        <div class="sis-multi-select-autocomplete sis-validated-form" sis-autocomplete-min-items="5" sis-autocomplete="dataText" sis-autocomplete-proxy="{{autocompleteProxy}}" sis-autocomplete-set="addSelection" sis-autocomplete-get="getTypes" sis-autocomplete-data-name="types" sis-autocomplete-require-selection sis-autocomplete-select>
+            <div ng-repeat="item in data track by $index" class="sis-multi-select-tag" ng-style="{'max-width': (100/numberOfSelections) + '%'}" class="sis-multi-select-tag" ng-class="{'highlighted': highlightedIndex == $index}">
+                <div class="sis-multi-select-tag-wrap">
+                    <span class="sis-multi-select-tag-text" title="{{item}}">{{item}}</span>
+                    <div class="sis-multi-select-tag-remove" ng-click="removeSelection($index)"></div>
+                </div>
+            </div>
+            <input type="text" class="sis-input sis-multi-select-input" tabindex="{{tabIndex}}" placeholder="up to {{numberOfSelections - data.length}} more..." ng-model="$parent.dataText" ng-style="{'width': 100-((100/numberOfSelections)*data.length) + '%'}">
+            <div class="sis-multi-select-button sis-button-tertiary" ng-click="openTypeList()"></div>
+        </div>
+    </div>
+</script>

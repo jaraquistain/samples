@@ -1,0 +1,348 @@
+@import "imports/sis-imports";
+$SIS-PROGRESS-BAR-SIZE: 16px;
+$SIS-UPLOAD-SPACING: 8px;
+.rounded {
+    @include border-radius(50%);
+    overflow: hidden;
+    .sis-asset-image {
+        @include border-radius(50%);
+        overflow: hidden;
+    }
+}
+.sis-asset {
+    position: relative;
+    //overflow: hidden; // Chrome bug profile header bug MS-1307
+    margin: 0 auto;
+
+    .overlay{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    [sis-loader]{
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      margin-top: -6px;
+    }
+
+    &.loaded{
+      [sis-loader]{
+        display: none;
+      }
+    }
+
+    /****************************** UPLOADING ******************************/
+    
+    .sis-directive-asset-uploading-wrap {
+        @include border-radius($SIS-UPLOAD-SPACING / 2);
+        background-color: $SIS-LIGHTEST-GRAY;
+        padding: $SIS-UPLOAD-SPACING;
+        .sis-directive-asset-state {
+            float: left;
+            max-width: 25%;
+            font-size: $SIS-UPLOAD-SPACING * 1.5;
+            color: $SIS-NEAR-BLACK;
+            margin: 0 0 $SIS-UPLOAD-SPACING;
+            text-transform: capitalize;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        &.sis-directive-asset-processing {
+            .sis-directive-asset-progress, .sis-directive-asset-progress-text {
+                padding-right: 0;
+            }
+        }
+        .sis-directive-asset-progress-text {
+            font-size: $SIS-UPLOAD-SPACING * 1.5;
+            color: $SIS-NEAR-BLACK;
+            margin: 0 0 $SIS-UPLOAD-SPACING;
+            float: right;
+            max-width: 75%;
+            padding-right: $SIS-PROGRESS-BAR-SIZE + $SIS-UPLOAD-SPACING;
+            text-align: right;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        } 
+        .sis-directive-asset-progress {
+            position: relative; 
+            @include transition(padding-right 218ms linear);
+            padding-right: $SIS-PROGRESS-BAR-SIZE + $SIS-UPLOAD-SPACING;
+            clear: both;
+        }
+        .sis-directive-asset-uploading {
+            .sis-directive-asset-progress {
+                padding-right: $SIS-PROGRESS-BAR-SIZE + ($SIS-UPLOAD-SPACING * 2);
+            }
+        }
+        .sis-directive-asset-progress-bar-wrap {
+            border: solid 1px black; 
+            height: $SIS-PROGRESS-BAR-SIZE; 
+            width: 100%;
+            background-color: $SIS-PROGRESS-BAR-BG;
+            @include border-radius($SIS-PROGRESS-BAR-SIZE / 4);
+            overflow: hidden;
+            .sis-directive-asset-progress-bar {
+                background-color: $SIS-RED;
+                height: 100%;
+                @include border-radius($SIS-PROGRESS-BAR-SIZE / 4);
+                @include transition(width 218ms linear);
+            }
+        } 
+        .sis-cancel-download {
+            height: $SIS-PROGRESS-BAR-SIZE;
+            line-height: $SIS-PROGRESS-BAR-SIZE;
+            width: $SIS-PROGRESS-BAR-SIZE;
+            text-align: center;
+            font-size: $SIS-PROGRESS-BAR-SIZE * 0.75;
+            @include border-radius($SIS-PROGRESS-BAR-SIZE / 2);
+            background-color: $SIS-HEADER-DROPDOWN;
+            color: $SIS-LIGHTEST-GRAY;
+            cursor: pointer;
+            display: block;
+            position: absolute;
+            top: 50%;
+            margin-top: -($SIS-PROGRESS-BAR-SIZE / 2);
+            right: 0;
+            &:hover {
+                background-color: $SIS-RED;
+            }
+        }
+    }
+    /**************************** END UPLOADING ****************************/
+
+
+    /******************************** EMBED ********************************/
+    .sis-asset-embed-wrap {
+        position: relative;
+        height: 0;
+        &.sis-asset-iframe-ratio-16-9 {
+            padding-bottom: 56.5%; 
+        }
+        &.sis-asset-iframe-ratio-4-3 {
+            padding-bottom: 75%; 
+        }
+        &.sis-asset-iframe-ratio-letter {
+            padding-bottom: 129.4%; 
+        }
+        &.sis-asset-iframe-ratio-soundcloud {
+            padding-bottom: 166px; 
+        }
+        .sis-asset-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            @include opacity(0);
+            @include transition(opacity 0.6s ease-in-out);
+            &.loaded{
+              @include opacity(1);
+            }
+        }
+    }
+    /****************************** END EMBED ******************************/
+
+
+    /******************************** IMAGE ********************************/
+    &.sis-asset-type-soundcloud {
+        .sis-asset-image-wrap .sis-asset-image {
+            background-color: $SIS-SOUNDCLOUD-ORANGE;
+        }
+    }
+    .sis-asset-image-wrap {
+        position: relative;
+        height: 0;
+        padding-bottom: 100%;
+        width: 100%;
+        background-color: rgba(0,0,0,0.5);
+        .sis-asset-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.0001;
+            display: block;
+            @include transition(opacity 218ms linear);
+            background-color: $SIS-LIGHTEST-GRAY;
+            &.loaded {
+                opacity: 0.999; 
+            }
+        }
+        .sis-asset-image-full.has-cache-cover {
+            @include transition(none);
+        }
+        
+        .sis-asset-image-cached {
+            opacity: 0.999;
+            &.loaded {
+                opacity: 0.0001;
+            }
+        }
+        .sis-asset-small-loader {
+            width: 20px;
+            height: 20px;
+            margin-top: -10px;
+            margin-left: -10px;
+            top: 50%;
+            left: 50%;
+            position: absolute;
+        }
+        .sis-asset-bgcover-image {
+            opacity: 0.999;
+            @include background-cover();
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+    /****************************** END IMAGE ******************************/
+
+    .sis-asset-unknown-wrap {
+        word-break:break-all;
+    }
+}
+
+/******************************** ADJUSTMENT FOR IMAGES COMING FROM CAROUSEL ********************************/
+.from-carousel {
+    .sis-asset .sis-asset-image-wrap .sis-asset-image {
+        opacity: 0.999;
+        @include transition(none);
+    }
+}
+/****************************** ERROR *****************************/
+.sis-asset-error-wrap {
+    img {
+        width: 100%;
+    }
+}
+
+/****************************** PROCESSING *****************************/
+$SIS-PROCESSING-RATIO: (9 / 16); //(h / w)
+$SIS-PROCESSING-SPACING: 10%;
+.sis-asset-processing-wrap {
+    padding-bottom: $SIS-PROCESSING-RATIO * 100%;
+    background-color: $SIS-LIGHTEST-GRAY;
+    height: 3 * $SIS-PROGRESS-BAR-SIZE;
+    width: 100%;
+    position: relative;
+    .sis-asset-processing-inner-wrap {
+        padding: $SIS-PROCESSING-SPACING / 2;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
+    .sis-asset-processing-bar{
+        border: solid 1px black; 
+        height: 16px; 
+        width: 90%;
+        background-size: contain;
+        background: url(/img/processing/processing_bar.gif) repeat-x;
+        @include border-radius(4px);
+        overflow: hidden;
+        position: absolute;
+        bottom: 5% / $SIS-PROCESSING-RATIO;
+        left: 5%;
+    }
+    .sis-asset-processing-text {
+        width: 90%;
+        //height: $SIS-PROCESSING-SPACING * 5;
+        text-align: center;
+        font-size: 11px;
+        color: $SIS-NEAR-BLACK;
+        margin: 0;
+        overflow: hidden;
+        position: absolute;
+        bottom: 8% / $SIS-PROCESSING-RATIO;
+        left: 5%;
+        .sis-asset-processing-text-copy,
+        .sis-asset-processing-text-title  {
+            @include inline-block();
+            // display: block;
+            // position: absolute;
+            // bottom: 0;
+            // left: 0;
+            width: 100%;
+            // margin-bottom: 4px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .sis-asset-processing-text-title {
+            // text-decoration: underline;
+            // font-size: 11px;
+            // margin-bottom: 2px;
+        }
+        .sis-asset-processing-text-copy {
+            font-size: 11px;
+        }
+    }
+    .sis-asset-processing-logo {
+        width: auto;
+        height: 35%;
+        display: block;
+        margin: 11% auto;
+    }
+}
+.blinking-dot-1 {
+    @include animation(blink1 1500ms linear infinite);
+    @include inline-block();
+    width: auto;
+}
+.blinking-dot-2 {
+    @include animation(blink2 1500ms linear infinite);
+    @include inline-block();
+    width: auto;
+}
+.blinking-dot-3 {
+    @include animation(blink3 1500ms linear infinite);
+    @include inline-block();
+    width: auto;
+}
+.blinking-dot-4 {
+    @include animation(blink4 1500ms linear infinite);
+    @include inline-block();
+    width: auto;
+}
+@include keyframes(blink1) {
+    0%, 19.99% {
+        opacity: 0.001;
+    }
+    20% {
+        opacity: 0.999;
+    }
+}
+@include keyframes(blink2) {
+    0%, 39.99% {
+        opacity: 0.001;
+    }
+    40% {
+        opacity: 0.999;
+    }
+}
+@include keyframes(blink3) {
+    0%, 59.99% {
+        opacity: 0.001;
+    }
+    60% {
+        opacity: 0.999;
+    }
+}
+@include keyframes(blink4) {
+    0%, 79.99% {
+        opacity: 0.001;
+    }
+    80% {
+        opacity: 0.999;
+    }
+}
+/**************************** END PROCESSING ***************************/

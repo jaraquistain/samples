@@ -1,0 +1,31 @@
+<script type="text/ng-template" id="sis-directive-text-input-template">
+    <div ng-form="outer" class="sis-text-input-outer">
+        <div ng-form="inner" class="sis-input-wrap sis-text-input-inner" ng-class="{'has-label': hasLabel}">
+            <label ng-show="label && label.length > 0" title="{{title}}" class="sis-input-label" ng-class="{'sis-modal-label': modalLabels}"><span ng-class="{'sis-modal-label-content': modalLabels}">{{label}}</span></label>
+            <div class="sis-input-element-wrap">
+                <input class="sis-input" title="{{title}}" placeholder="{{placeholder}}" ng-model="model"  type="{{type}}">
+            </div>
+        </div>
+        <ul ng-show="showErrors" class="sis-validation-errors">
+            <li ng-show="showError(name)" class="sis-validation-error-message sis-icon-x" ng-repeat="(name, val) in inner.$error">
+                {{messages[name]}}
+            </li>
+        </ul>
+    </div>
+</script>
+
+<script type="text/ng-template" id="sis-directive-text-input-textarea-template">
+    <div ng-form="outer" class="sis-text-input-outer">
+        <div ng-form="inner" class="sis-input-wrap sis-text-input-inner" ng-class="{'has-label': hasLabel}">
+            <label ng-show="label && label.length > 0" title="{{title}}" class="sis-input-label" ng-class="{'sis-modal-label': modalLabels}"><span ng-class="{'sis-modal-label-content': modalLabels}">{{label}}</span></label>
+            <div class="sis-input-element-wrap">
+                <textarea class="sis-input-text-area full-width" title="{{title}}" ng-model="model" type="{{type}}"></textarea>
+            </div>
+        </div>
+        <ul ng-show="showErrors" class="sis-validation-errors">
+            <li ng-show="showError(name)" class="sis-validation-error-message sis-icon-x" ng-repeat="(name, val) in inner.$error">
+                {{messages[name]}}
+            </li>
+        </ul>
+    </div>
+</script>

@@ -1,0 +1,186 @@
+/***********************
+*
+* Project Detail
+* DO NOT EDIT CSS, edit the SCSS
+*
+***********************/
+@import "imports/sis-imports";
+
+.sis-multi-select {
+    $btnWidth: 40px;
+    background-color: $SIS-WHITE;
+    border: 1px solid #afb1b3;
+    @include border-radius(3px);
+    &.at-max {
+        .sis-multi-select-tags input {
+            display: none;
+        }
+        .sis-multi-select-button {
+            pointer-events: none;
+            opacity: 0.2;
+            cursor: default;
+        }
+        .sis-input-dropdown {
+            cursor: default;
+        }
+        .sis-input-dropdown:after {
+            opacity: 0.2;
+
+        }
+        .sis-multi-select-input {
+            padding: 0;
+        }
+    }
+    .sis-autocomplete-popup {
+//        width: 100%;
+        left: auto !important;
+
+        .sis-autocomplete-item-title {
+            line-height: 7px;
+            font-size: 11px;
+            background-color: $SIS-GRAY-7;
+            color: $SIS-GRAY-3;
+            cursor: default;
+            &:hover {
+                background-color: $SIS-GRAY-7;
+            }
+        }
+    }
+    .sis-multi-select-button {
+        position: absolute;
+        height: 100%;
+        width: $btnWidth;
+        top: 0;
+        right: 0;
+        border: none;
+        border-left: 1px solid #afb1b3;
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+    }
+    .sis-input-dropdown {
+        overflow: hidden;
+        padding-right: 40px;
+        &:after {
+            width: $btnWidth;
+            height: 12px;
+            position: absolute;
+            top: 50%;
+            margin-top: -6px;
+            text-align: center;
+            @include transition(opacity 218ms linear);
+        }
+
+    }
+    .sis-input {
+        border: none;
+    }
+    .sis-multi-select-input {
+        float: left;
+        outline: none;
+        background: none;
+        padding-left: 8px;
+        cursor: text;
+        &:hover {
+            background: none;
+        }
+        &.ng-dirty.ng-valid {
+            border: none;
+            background: none;
+        }
+    }
+    .sis-multi-select-tag {
+        padding: 6px;
+        float: left;
+        .sis-multi-select-tag-wrap {
+            position: relative;
+            border: 1px solid $SIS-LIGHTER-GRAY;
+            background-color: $SIS-LIGHTEST-GRAY;
+            padding: 2px 24px 2px 4px;
+            @include transition(border 218ms linear);
+            .sis-multi-select-tag-text {
+                @include truncate-single-line();
+                @include inline-block();
+                width: 100%;
+            }
+            .sis-multi-select-tag-remove {
+                &:before {
+                    content: '\00d7';
+                    font-size: 24px;
+                    font-weight: 200;
+                    position: absolute;
+                    top: -3px;
+                    right: 5px;
+                    color: $SIS-BORDER-GRAY;
+                }
+                &:hover {
+                    &:before {
+                        color: $SIS-MED-LIGHT-GRAY;
+                    }
+                }
+            }
+        }
+        &.highlighted {
+            .sis-multi-select-tag-wrap {
+                border: 1px solid $SIS-MED-GRAY;
+            }
+        }
+    }
+    input.ng-valid {
+        background: none;
+        border: none;
+    }
+}
+
+.sis-validated-form {
+    &.ignore-dirty {
+        input.sis-multi-select-input.ng-valid {
+            background: none;
+            border: none;
+        }
+    }
+    .sis-multi-select.ng-valid.ng-dirty {
+        border: 1px solid green;
+        background: #f9fff9;
+    }
+}
+
+.show-invalid {
+    .sis-validated-form.ng-invalid {
+        .sis-input-label {
+            color: $SIS-RED;
+        }
+        .sis-multi-select {
+            border: 1px solid $SIS-RED;
+            position: relative;
+            input {
+                color: $SIS-RED;
+                &::-webkit-input-placeholder { /* WebKit browsers */
+                    color:    $SIS-RED;
+                }
+                &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+                    color:    $SIS-RED;
+                    opacity:  1;
+                }
+                &::-moz-placeholder { /* Mozilla Firefox 19+ */
+                    color:    $SIS-RED;
+                    opacity:  1;
+                }
+                &:-ms-input-placeholder { /* Internet Explorer 10+ */
+                    color:    $SIS-RED;
+                }
+            }
+            &:after {
+                content: 'required';
+                position: absolute;
+                right: 40px;
+                bottom: 0;
+                font-size: 10px;
+                line-height: 20px;
+                padding: 9px;
+                letter-spacing: 1px;
+            }
+        }
+
+    }
+}
+

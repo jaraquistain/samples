@@ -1,0 +1,17 @@
+@import "imports/sis-imports";
+.sis-text-input {
+    .sis-modal-label {
+        margin-top: 0;
+    }
+    .sis-input-wrap.sis-icon-input-wrap.has-label:before {
+        top: 42px;
+    }
+    margin-bottom: 12px;
+    .sis-text-input-outer, .sis-text-input-inner, .sis-input {
+        width: 100%;
+    }
+    .sis-input-label {
+        display: block;
+    }
+
+}

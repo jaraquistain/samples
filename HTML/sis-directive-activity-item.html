@@ -1,0 +1,213 @@
+<!-------------------------------------------------------------->
+<!--                   user-liked-project                     -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-liked-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div ng-if="data.object.entityTOList.length < 3" sis-activity-block-project="data" show-engage block-entity-map="map" block-size="m" block-source="object"></div>
+    <div ng-if="data.object.entityTOList.length > 2" sis-activity-block-carousel="data" block-type="project" block-limit="9999" block-entity-map="map" block-source="object"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="project" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                   user-joined-project                     -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-joined-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="m" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="join-project" block-index="0"></div>
+    <!--<div sis-activity-block-comments="data" block-entity-map="map" block-type="project" block-source="object"></div>-->
+</script>
+
+<!-------------------------------------------------------------->
+<!--                   user-followed-user                     -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-followed-user-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+
+    <div ng-if="data.object.entityTOList.length <= 3" sis-activity-block-sort-type="follow" sis-activity-block-person="data" block-entity-map="map" block-size="l" sis-activity-block-person-limit="5"
+         block-source="object"></div>
+
+    <div ng-if="data.object.entityTOList.length > 3" sis-activity-block-sort-type="follow" sis-activity-block-person="data" block-entity-map="map" block-size="s" sis-activity-block-person-limit="5"
+         block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="followed-user" block-index="0"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                  user-created-article                    -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-created-article-template">
+    <div sis-activity-block-header="data"block-entity-map="map"  block-size="l"></div>
+    <div sis-activity-block-article="data" block-entity-map="map" block-size="l" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="article" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="article" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                  user-created-project                    -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-created-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-hero="data" block-entity-map="map" block-source="object" block-index="0"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="s" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="project" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="project" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                   user-edited-project                    -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-edited-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="m" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="updated-project" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="project" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--             user-changed_cover_image-project             -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-changed_cover_image-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="m" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="updated-project" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="project" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-changed_profile_pic-none               -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-changed_profile_pic-none-template">
+    <div ng-if="data.actor.entityTOList.length == 1" sis-activity-block-header="data" block-entity-map="map" block-size="xl"></div>
+    <div ng-if="data.actor.entityTOList.length == 1" sis-activity-block-engage-bar="data" block-entity-map="map" block-source="actor" block-type="profile-img" block-index="0"></div>
+    <div ng-if="data.actor.entityTOList.length > 1" sis-activity-block-header="data" block-entity-map="map" block-size="s"></div>
+    <div ng-if="data.actor.entityTOList.length > 1" sis-activity-block-person-list="data" block-entity-map="map" block-source="actor" block-limit="7"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-add_asset-project                      -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-add_asset-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="m" block-source="object"></div>
+    <div ng-if="numAssets > 2" sis-activity-block-carousel="data" block-limit="5" block-type="asset" block-entity-map="map" block-source="actor"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="updated-project" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="updated-project" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-commented-project                      -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-commented-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-pull-quote="data" block-entity-map="map" block-key="comment"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="m" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="commented-project" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="project" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              company-added-user                    -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-company-added-user-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div ng-if="data.object.entityTOList.length == 1" sis-activity-block-person="data" block-entity-map="map" block-size="l" sis-activity-block-person-limit="5"
+         block-source="object"></div>
+    <div ng-if="data.object.entityTOList.length > 1" sis-activity-block-person-list="data" block-entity-map="map" block-source="object" block-limit="7"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-claimed-company                     -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-claimed-company-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-company="data" block-entity-map="map" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="company" block-index="0"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-commented-article                      -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-commented-article-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-pull-quote="data" block-entity-map="map" block-key="comment" block-author></div>
+    <div sis-activity-block-article="data" block-entity-map="map" block-size="l" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="commented-article" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="article" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-joined_shocase-none                    -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-joined_shocase-none-template">
+    <div ng-if="data.actor.entityTOList.length == 1" sis-activity-block-header="data" block-entity-map="map" block-size="xl"></div>
+    <div ng-if="data.actor.entityTOList.length == 1" sis-activity-block-engage-bar="data" block-source="actor" block-entity-map="map" block-type="person" block-index="0"></div>
+    <div ng-if="data.actor.entityTOList.length > 1" sis-activity-block-header="data" block-entity-map="map" block-size="s"></div>
+    <div ng-if="data.actor.entityTOList.length > 1" sis-activity-block-person-list="data" block-entity-map="map" block-source="actor" block-limit="7"></div>
+    <div ng-if="data.actor.entityTOList.length > 1" sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="joined-shocase" block-index="0"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-liked-article                          -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-liked-article-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-article="data" block-entity-map="map" block-size="s" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="liked-article" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="article" block-source="object" ></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-posted-article                         -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-posted-article-template">
+    <div ng-if="data.activityType == 'removed'" sis-activity-block-header="data" block-entity-map="map" block-size="s"></div>
+    <div ng-if="data.activityType != 'removed'" sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div ng-if="data.activityType != 'removed'" sis-activity-block-article="data" block-entity-map="map" block-size="l" block-source="object"></div>
+    <div ng-if="data.activityType != 'removed'" sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object" block-type="shared-article" block-index="0"></div>
+    <div ng-if="data.activityType != 'removed'" sis-activity-block-comments="data" block-entity-map="map" block-type="article" block-source="object"></div>
+</script>
+
+<!-- Have not seen the below items in the simulation -->
+
+<!-------------------------------------------------------------->
+<!--              company-added-project                       -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-company-added-project-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="m" block-source="object"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              project-awarded-award                       -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-project-awarded-award-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-award="data" block-entity-map="map" block-source="object"></div>
+    <div sis-activity-block-hero="data" block-entity-map="map" block-index="0" block-source="actor"></div>
+    <div sis-activity-block-project="data" block-entity-map="map" block-size="s" block-source="actor"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-source="actor" block-type="project-award" block-index="0"></div>
+    <div sis-activity-block-comments="data" block-entity-map="map" block-type="project"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              user-new_job-company                        -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-user-new_job-company-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="l"></div>
+    <div sis-activity-block-company="data" block-entity-map="map" block-source="object"></div>
+    <div sis-activity-block-engage-bar="data" block-entity-map="map" block-type="company" block-source="object" block-index="0"></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--              notifications                        -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-notifications-template">
+    <div sis-activity-block-header="data" block-entity-map="map" block-size="s" block-is-self></div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                       unhandled-type                       -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-item-unhandled-type-template">
+    <p>unhandled type: {{data.activityType}}</p>
+</script>

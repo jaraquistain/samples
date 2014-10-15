@@ -1,0 +1,6 @@
+<script type="text/ng-template" id="sis-upload-template">
+    <div class="sis-upload">
+        <div ng-transclude class="sis-upload-transclude"></div>
+        <input type="file" style="display:none" class="u-file-input" accept="{{validTypes}}" ng-multiple="allowMultiple" ng-change="fileInputChange($event)" ng-model="fileData"/>
+    </div>
+</script>

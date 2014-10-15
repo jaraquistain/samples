@@ -1,0 +1,122 @@
+@import "imports/sis-imports";
+.sis-validated-form {
+    input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid {
+        border: 1px solid $SIS-GREEN;
+        background: $SIS-WHITE-GREEN;
+
+    }
+    &.ignore-dirty {
+        input.ng-valid, textarea.ng-valid {
+            border: 1px solid $SIS-GREEN;
+            background: $SIS-WHITE-GREEN;
+
+        }
+    }
+    .sis-input-dropdown {
+        height: auto;
+    }
+    .sis-input-wrap.ng-invalid-ajax-check {
+        $iconSize: 15px;
+        $iconPadding: 12px;
+        &:after {
+            content: '';
+            background: url("../../img/spinner.gif") center no-repeat;
+            background-size: $iconSize $iconSize;
+            height: $iconSize;
+            width: $iconSize;
+            position: absolute;
+            top: $iconPadding;
+            right: $iconPadding * 0.75;
+            font-size: $iconSize;
+            color: $SIS-DARK-GRAY;
+            z-index: 1;
+        }
+        .sis-input {
+            padding-right: $iconSize + (1.5 * $iconPadding) - 2px;
+        }
+    }
+    .sis-icon-input-wrap {
+        margin-top: 12px;
+        &:first-child {
+            margin-top: 0;
+        }
+        .sis-input {
+            width: 100%;
+        }
+    }
+    .sis-validation-errors {
+        display: none;
+    }
+    .sis-input-wrap {
+        @include inline-block();
+        position: relative;
+    }
+    .sis-validation-error-message {
+        font-size: 12px;
+        color: $SIS-RED;
+        margin: 4px 0 0;
+        text-align: left;
+        &:before {
+            @include inline-block();
+            margin: 3px;
+        }
+    }
+
+    &.show-invalid {
+
+        .sis-input.ng-invalid, .sis-input-text-area.ng-invalid {
+            border: 1px solid $SIS-RED;
+            color: $SIS-RED;
+            &::-webkit-input-placeholder {
+                color: $SIS-RED;
+            }
+            &:-moz-placeholder {
+                color: $SIS-RED;
+            }
+            &::-moz-placeholder {
+                color: $SIS-RED;
+            }
+            &:-ms-input-placeholder {
+                color: $SIS-RED;
+            }
+        }
+        .sis-input-wrap.ng-invalid {
+            .sis-input-label {
+                color: $SIS-RED;
+            }
+        }
+
+        .sis-input-wrap.ng-invalid-required {
+
+            &:after {
+                content: 'required';
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                font-size: 10px;
+                line-height: 20px;
+                padding: 9px;
+                letter-spacing: 1px;
+            }
+            .sis-input {
+                padding-right: 64px;
+            }
+        }
+        .sis-input-dropdown {
+            .sis-input-wrap.ng-invalid-required:after {
+                padding: 4px 22px 5px 4px;
+            }
+        }
+        .ng-invalid {
+            &:before, &:after {
+                color: $SIS-RED;
+            }
+        }
+        .sis-validation-errors {
+            display: block;
+        }
+    }
+
+}
+
+

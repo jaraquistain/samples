@@ -1,0 +1,344 @@
+<!-------------------------------------------------------------->
+<!--                      PROJECT                             -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-project-template">
+    <div ng-repeat="project in data[source].entityTOList">
+        <div class="sis-activity-block sis-activity-block-project block-size-{{size}}">
+            <div sis-activity-block-dynamic-button block-type="project" block-action="like" block-id="project.objectId"
+                 block-is-selected="map[project.objectType][project.objectId].likedByCurrentUser" block-size="l"
+                 ng-if="size === 's'"></div>
+            <a ng-if="size !== 's'" class="project-cover-img" ng-href="/#/project/{{project.objectId}}"
+               title="{{map[project.objectType][project.objectId].projectName}}"
+               ng-style="{'background-image': 'url(' + (map[project.objectType][project.objectId].coverImage | App.isValidImage:'m') + ')'}" data-click-action="clickthrough" data-click-id="{{project.objectId}}" data-click-type="project"></a>
+            <a class="hover" ng-class="{'sis-header-primary': size === 's', 'sis-header-secondary': size === 'm'}"
+               ng-href="/#/project/{{project.objectId}}"
+               title="{{map[project.objectType][project.objectId].projectName}}" data-click-action="clickthrough" data-click-id="{{project.objectId}}" data-click-type="project">{{map[project.objectType][project.objectId].projectName
+                | App.truncateLength:getTruncateLength('title')}}</a>
+
+            <p class="sis-copy-info">
+            <span class="sis-copy-info-item"><span
+                    ng-repeat="type in map[project.objectType][project.objectId].projectTypeList track by $index">{{type}}<span
+                    ng-if="!$last">, </span></span></span>
+            <span ng-if="map[project.objectType][project.objectId].brand">for <span
+                    class="sis-copy-info-item">{{map[project.objectType][project.objectId].brand}}</span></span>
+            </p>
+
+            <p class="sis-copy-secondary" ng-if="size !== 's'">{{map[project.objectType][project.objectId].description |
+                App.truncateLength:getTruncateLength('description',
+                map[project.objectType][project.objectId].projectName)}}</p>
+            <div sis-activity-block-dynamic-button block-type="project" block-action="like" block-id="project.objectId"
+                 block-is-selected="map[project.objectType][project.objectId].likedByCurrentUser" block-size="s"
+                 ng-if="size === 'm'"></div>
+        </div>
+
+        <div ng-if="showEngage" sis-activity-block-engage-bar="data" block-entity-map="map" block-source="object"
+             block-type="{{data.verb}}-project" block-index="{{$index}}"></div>
+    </div>
+</script>
+
+
+<!-------------------------------------------------------------->
+<!--                      COMPANY                             -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-company-template">
+    <div class="sis-activity-block sis-activity-block-company" ng-repeat="company in data[source].entityTOList">
+        <a class="company-logo"
+           ng-style="{'background-image': 'url(' + (map[company.objectType][company.objectId].logoMedia | App.isValidImage:'small':'img/placeholder-company.png') + ')'}"
+           ng-href="/#/company/{{company.objectId}}" data-click-action="clickthrough" data-click-id="{{company.objectId}}" data-click-type="company"></a>
+        <a class="hover sis-copy-username" ng-href="/#/company/{{company.objectId}}"
+           title="{{map[company.objectType][company.objectId].companyName}}"  data-click-action="clickthrough" data-click-id="{{company.objectId}}" data-click-type="company" data-click-activity-type="{{data.activityType}}">{{map[company.objectType][company.objectId].companyName
+            |
+            App.truncateLength:100}}</a>
+
+        <p ng-if="map[company.objectType][company.objectId].industries.length" class="sis-copy-info">
+            <span class="sis-copy-info-item">
+                <span ng-repeat="industry in map[company.objectType][company.objectId].industries | limitTo: industryLimit"><span
+                        ng-if="$last && !$first"> & </span>{{industry}}<span
+                        ng-if="$index < (map[company.objectType][company.objectId].industries | limitTo: industryLimit).length - 2">, </span></span>
+                COMPANY
+            </span>
+            <span ng-if="map[company.objectType][company.objectId].location.city"
+                  class="sis-copy-info-item sis-icon-location">{{map[company.objectType][company.objectId].location.city}}, <span
+                    ng-if="map[company.objectType][company.objectId].location.state">{{map[company.objectType][company.objectId].location.state}}</span><span
+                    ng-if="!map[company.objectType][company.objectId].location.state">{{map[company.objectType][company.objectId].location.country}}</span></span>
+        </p>
+
+        <p class="sis-copy-secondary">{{map[company.objectType][company.objectId].description |
+            App.truncateLength:240}}</p>
+    </div>
+</script>
+
+
+<!-------------------------------------------------------------->
+<!--                      PERSON                              -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-person-template">
+    <div class="sis-activity-block sis-activity-block-person block-size-{{size}}"
+         ng-repeat="person in personList | limitTo:showing">
+        <!-- Small Follow Button -->
+        <button ng-if="size == 's' && !isCurrentUser(person.objectId)" class="sis-btn-follow"
+                ng-class="{'selected': map[person.objectType][person.objectId].followedByCurrentUser}"
+                data-click-action="follow" data-click-id="{{person.objectId}}" data-click-type="user"
+                data-button-text="{{map[person.objectType][person.objectId].followedByCurrentUser ? 'Following': 'Follow'}}"></button>
+        <a class="profile-img circle"
+           ng-style="{'background-image': 'url(' + (map[person.objectType][person.objectId].profileImage | App.isValidImage:'small':'img/no-profile-image.jpg') + ')'}"
+           ng-href="/#/user/{{person.objectId}}" data-click-action="clickthrough" data-click-id="{{person.objectId}}" data-click-type="user"></a>
+        <a class="sis-copy-username hover" ng-href="/#/user/{{person.objectId}}" data-click-action="clickthrough" data-click-id="{{person.objectId}}" data-click-type="user" data-click-activity-type="{{data.activityType}}">{{map[person.objectType][person.objectId].firstName}}
+            {{map[person.objectType][person.objectId].lastName}}</a>
+
+        <p class="sis-copy-info"
+           ng-if="map[person.objectType][person.objectId].currentTitle && map[person.objectType][person.objectId].currentCompany">
+            <span class="sis-copy-info-item">{{map[person.objectType][person.objectId].currentTitle}}</span>
+            <span ng-if="map[person.objectType][person.objectId].currentTitle && map[person.objectType][person.objectId].currentCompany">at</span>
+            <a class="sis-copy-info-entity"
+               ng-href="/#/company/{{map[person.objectType][person.objectId].currentCompanyPageId}}" data-click-action="clickthrough" data-click-id="{{map[person.objectType][person.objectId].currentCompanyPageId}}" data-click-type="company" data-click-activity-type="{{data.activityType}}">{{map[person.objectType][person.objectId].currentCompany}}</a>
+        </p>
+
+        <p class="sis-copy-info sis-icon-location uppercase"
+           ng-if="size == 'l' && map[person.objectType][person.objectId].locationTO | App.isValidLocation">
+            {{map[person.objectType][person.objectId].locationTO | App.isValidLocation}}
+           </p>
+
+        <!-- Large Follow Button -->
+        <button ng-if="(size == 'l' || size == 'm') && !isCurrentUser(person.objectId)" class="sis-btn-follow-large"
+                ng-class="{'selected': map[person.objectType][person.objectId].followedByCurrentUser}"
+                data-click-action="follow" data-click-generate-activity="{{generateActivity}}" data-click-id="{{person.objectId}}" data-click-type="user"
+                data-button-text="{{map[person.objectType][person.objectId].followedByCurrentUser ? 'Following': 'Follow'}}"></button>
+    </div>
+            
+    <div ng-if="!hideViewAll && !showAll && data[source].entityTOList.length > limit" class='action-bar'
+         sis-activity-block-action-bar="data" block-action="toggleView" block-text="View All"></div>
+    <!--<div ng-if="showAll" class='action-bar' sis-activity-block-action-bar="data" block-action="toggleView" block-text="Hide"></div>-->
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      HERO                                -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-hero-template">
+    <a class="hero-img" ng-href="/#/project/{{data[source].entityTOList[index].objectId}}"
+       title="{{map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].projectName}}"
+       ng-style="{'background-image': 'url(' + (map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].coverImage | App.isValidImage:'small') + ')'}"
+       data-click-action="clickthrough" data-click-id="{{data[source].entityTOList[index].objectId}}" data-click-type="project" data-click-activity-type="{{data.activityType}}"></a>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      CAROUSEL                            -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-carousel-template">
+    <div class="sis-activity-block sis-activity-block-carousel">
+        <div ng-if="currentSlide > 0" class="sis-btn-prev" ng-click="setSlide(currentSlide - 1)"></div>
+        <div ng-if="currentSlide < lastSlide" class="sis-btn-next" ng-click="setSlide(currentSlide + 1)"></div>
+        <div class="slide-wrap" ng-style="{'width': wrapWidth}">
+            <div ng-if="type == 'project'" class="slide"
+                 ng-repeat="project in data[source].entityTOList | limitTo : limit" ng-style="{'width': slideWidth}">
+                <a ng-if="size !== 's'" class="project-cover-img" ng-href="/#/project/{{project.objectId}}"
+                   title="{{map[project.objectType][project.objectId].projectName}}"
+                   ng-style="{'width': imgWidth, 'height': imgWidth * (9/16), 'background-image': 'url(' + (map[project.objectType][project.objectId].coverImage | App.isValidImage:'tiny') + ')'}"
+                   data-click-action="clickthrough" data-click-id="{{project.objectId}}" data-click-type="project" data-click-activity-type="{{data.activityType}}"></a>
+                <a class="hover sis-header-mini" ng-href="/#/project/{{project.objectId}}"
+                   title="{{map[project.objectType][project.objectId].projectName}}"
+                   data-click-action="clickthrough" data-click-id="{{project.objectId}}" data-click-type="project" data-click-activity-type="{{data.activityType}}">{{map[project.objectType][project.objectId].projectName}}</a>
+            </div>
+            <div ng-if="type == 'asset'" class="slide" ng-repeat="asset in assetList | limitTo : limit"
+                 ng-style="{'width': slideWidth}">
+                <a class="project-cover-img"
+                   ng-href="/#/project/{{data[notSource].entityTOList[0].objectId}}?lightbox={{asset.id}}"
+                   title="{{asset.projectName}}"
+                   ng-style="{'width': imgWidth, 'height': imgWidth * (9/16), 'background-image': 'url(' + (asset | App.isValidImage:'tiny') + ')'}"
+                   data-click-action="clickthrough" data-click-id="{{data[notSource].entityTOList[0].objectId}}" data-click-type="project" data-click-activity-type="{{data.activityType}}"></a>
+            </div>
+            <div class="slide overflow-slide" ng-style="{'width': imgWidth, 'height': imgWidth * (9/16)}"
+                 ng-if="type == 'asset' && assetList.length > limit || type == 'project' && data[source].entityTOList.length > limit">
+                <a ng-if="type == 'asset'" class="sis-header-secondary-light hover"
+                   ng-href="/#/project/{{data[notSource].entityTOList[0].objectId}}"
+                   title="{{assetList.length - limit}} More Added"
+                   ng-style="{'width': imgWidth, 'line-height': imgWidth * (9/16) + 'px'}"
+                   data-click-action="clickthrough" data-click-id="{{data[notSource].entityTOList[0].objectId}}" data-click-type="project" data-click-activity-type="{{data.activityType}}">{{assetList.length - limit}}
+                    More</a>
+
+                <p ng-if="type == 'project'" class="sis-header-secondary-light"
+                   title="+{{data[source].entityTOList.length - limit | App.shortNumber}} More"
+                   ng-style="{'width': imgWidth, 'line-height': imgWidth * (9/16) + 'px'}">
+                    +{{data[source].entityTOList.length - limit | App.shortNumber}} More</p>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      ENGAGE BAR                          -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-engage-bar-template">
+    <p class="sis-copy-info-light">{{action}} {{data | App.activityTimeAgo}} ago</p>
+    <span ng-if="shouldShowIcon('likes')"
+          title="{{map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].numLikes | App.shortNumber}} Likes"
+          class="sis-copy-stat sis-icon-thumbs-up">{{map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].numLikes | App.shortNumber}}</span>
+    <span ng-if="shouldShowIcon('team')"
+          title="{{map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].numCollaborators | App.shortNumber}} Team Members"
+          class="sis-copy-stat sis-icon-collaborators">{{map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].numCollaborators | App.shortNumber}}</span>
+    <span ng-if="shouldShowIcon('employees')"
+          title="{{map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].userListSize | App.shortNumber}} Employees"
+          class="sis-copy-stat sis-icon-collaborators">{{map[data[source].entityTOList[index].objectType][data[source].entityTOList[index].objectId].userListSize | App.shortNumber}}</span>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      ACTION BAR                          -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-action-bar-template">
+    <div class="sis-activity-block sis-activity-block-action-bar sis-copy-info-entity" ng-click="actionClick($event)"
+         data-click-action="clickthrough" data-click-id="{{id || data.id}}" data-click-type="{{text}}-{{type || data.activityType}}" data-click-activity-type="{{data.activityType}}">
+        {{text}}
+    </div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      COMMENTS                            -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-comments-template">
+    <div class="sis-activity-block-comments sis-activity-block">
+        <!-- Action Bar -->
+        <div class="action-bar" sis-activity-block-action-bar="data" block-action="showComments" block-text="Add + View Comments" block-type="{{type}}" block-id="{{articleId}}"
+             ng-class="{'hidden': commentsVisible}"></div>
+
+        <!-- Comments -->
+        <div class="comment-widget" sis-livefyre="articleId" sis-livefyre-title="articleName"
+             sis-livefyre-type="{{type}}"
+             id="sis-livefyre-{{articleId}}"
+             ng-if="commentsVisible"></div>
+    </div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      PERSON LIST                         -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-person-list-template">
+    <div class="person"
+         title="{{map[person.objectType][person.objectId].firstName.toTitleCase()}} {{map[person.objectType][person.objectId].lastName.toTitleCase()}}"
+         ng-repeat="person in data[source].entityTOList | limitTo: limit"
+         ng-style="{'width': (100 / (limit + 1)) + '%'}">
+        <a class="profile-img circle"
+           ng-style="{'background-image': 'url(' + (map[person.objectType][person.objectId].profileImage | App.isValidImage:'small':'img/no-profile-image.jpg') + ')'}"
+           ng-href="/#/user/{{person.objectId}}" data-click-action="clickthrough" data-click-id="{{person.objectId}}" data-click-type="user" data-click-activity-type="{{data.activityType}}"></a>
+        <a class="sis-copy-info-entity hover" ng-href="/#/user/{{map[person.objectType][person.objectId].id}}" data-click-action="clickthrough" data-click-id="{{person.objectId}}" data-click-type="user" data-click-activity-type="{{data.activityType}}">
+            <span class="single-line">{{map[person.objectType][person.objectId].firstName}}</span>
+            <span class="single-line">{{map[person.objectType][person.objectId].lastName}}</span>
+        </a>
+    </div>
+    <div ng-if="data[source].entityTOList.length > limit" class="person"
+         ng-style="{'width': (100 / (limit + 1)) + '%'}">
+        <p class="profile-img circle">+{{data[source].entityTOList.length - limit}}</p>
+
+        <p class="sis-copy-info">more</p>
+    </div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      AWARD                               -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-award-template">
+    <div class="sis-activity-block-award sis-activity-block">
+        <a class="award-img" ng-href="#/project/{{project.id}}"
+           ng-style="{backgroundImage: 'url(' + (award.media[award.awards[0].logoMedia] | App.isValidImage:'s') + ')'}"
+           data-click-action="clickthrough" data-click-id="{{project.id}}" data-click-type="award-project" data-click-activity-type="{{data.activityType}}"></a>
+
+        <div class="award-info">
+            <a class="award-name sis-header-mini gold hover" ng-href="#/project/{{project.id}}"
+               data-click-action="clickthrough" data-click-id="{{project.id}}" data-click-type="award-project" data-click-activity-type="{{data.activityType}}">
+                {{award.awards[0].institution}} {{award.awards[0].category}} {{award.awards[0].level}} Winner</a>
+
+            <div class="award-year sis-copy-mini">{{award.awards[0].year}}</div>
+        </div>
+
+    </div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      PULL QUOTE                          -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-pull-quote-template">
+    <div class="sis-activity-block sis-activity-block-pull-quote sis-copy-secondary"
+         ng-class="{'article-text': key == 'userText', 'comment': key === 'comment', 'has-like-btn': article && !article.title, 'update-only': article && !article.articleUrl}">
+        <pre class="quote" ng-bind-html="trustedHtml(quote)"></pre><span
+            class="sis-copy-info-light uppercase" ng-if="author"> &mdash; {{author.firstName}}</span>
+
+        <div sis-activity-block-dynamic-button block-type="article" block-action="like" block-id="article.id"
+             block-is-selected="article.likedByCurrentUser" block-size="s"
+             ng-if="article && !article.title && key == 'userText'"></div>
+    </div>
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      Article                          -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-article-template">
+    <div sis-activity-block-pull-quote="data" block-entity-map="map" block-key="userText"
+         block-source="object"></div>
+
+    <div ng-if="article.articleUrl"
+         class="sis-activity-block sis-activity-block-article block-size-{{size}}" id="{{article.id}}">
+        <a target="_blank" class="article-cover-img"
+           ng-href="{{article.articleUrl}}"
+           title={{article.title}}"
+           ng-style="{'background-image': 'url(' + (article.articleImage | App.isValidImage:'s') + ')'}"
+           data-click-action="clickthrough" data-click-id="{{article.id}}" data-click-type="article-link" data-click-activity-type="{{data.activityType}}"></a>
+
+        <div class="article-content">
+            <a target="_blank" class="article-title hover"
+               ng-class="{'sis-header-primary': size === 's', 'sis-header-secondary': size === 'l'}"
+               ng-href="{{article.articleUrl}}"
+               title="{{article.title}}"
+               data-click-action="clickthrough" data-click-id="{{article.id}}" data-click-type="article-link" data-click-activity-type="{{data.activityType}}">{{article.title
+                | App.truncateLength:getTruncateLength('title')}}</a>
+
+            <p class="article-description sis-copy-secondary">
+                {{article.description |
+                App.truncateLength:getTruncateLength('description',
+                article.title)}}</p>
+
+            <a class="article-domain sis-copy-info-light hover uppercase" target="_blank"
+               ng-href="{{article.articleUrl}}" data-click-action="clickthrough" data-click-id="{{article.id}}" data-click-type="article-link" data-click-activity-type="{{data.activityType}}">{{articleDomain}}</a>
+        </div>
+
+        <div sis-activity-block-dynamic-button block-type="article" block-action="like" block-id="article.id"
+             block-is-selected="article.likedByCurrentUser" block-size="{{size}}"></div>
+    </div>
+</script>
+
+
+<!-------------------------------------------------------------->
+<!--                      Dynamic Button                    -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-dynamic-button-template">
+    <!-- LIKE -->
+    <button ng-if="action == 'like' && size == 's'"
+            class="sis-btn-like-tiny"
+            data-click-action="{{action}}"
+            data-click-type="{{type}}"
+            data-click-id="{{id}}"
+            ng-class="{'selected': isSelected, 'collapsed': collapsed, 'confirmation': isConfirmation}"
+            ng-click="handleClick($event)"
+            ng-mouseenter="handleMouseEnter($event)"
+            ng-mouseleave="handleMouseLeave($event)"
+            data-button-text="{{text}}"></button>
+
+    <button ng-if="action == 'like' && size == 'l'"
+            class="sis-btn-like"
+            data-click-action="{{action}}"
+            data-click-type="{{type}}"
+            data-click-id="{{id}}"
+            data-button-text="{{text}}"
+            ng-click="handleClick($event)"
+            ng-mouseenter="handleMouseEnter($event)"
+            ng-mouseleave="handleMouseLeave($event)"
+            ng-class="{'selected': isSelected, 'confirmation': isConfirmation}"></button>
+
+</script>
+
+<!-------------------------------------------------------------->
+<!--                      ERRORS                              -->
+<!-------------------------------------------------------------->
+<script type="text/ng-template" id="sis-activity-block-unknown-template">
+    <div class="sis-activity-block-unknown">
+        unknown template
+    </div>
+</script>

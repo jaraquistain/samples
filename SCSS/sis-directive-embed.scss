@@ -1,0 +1,41 @@
+@import "imports/sis-imports";
+
+.sis-embed {
+	position: relative;
+	.e-preview-spinner {
+		position: absolute;
+		//width: 39px;
+		//height: 26px;
+		margin-top: 13px;
+        right: $SIS-CONTENT-GUTTER/2;
+		//display: none;
+	}
+	&.processing {
+		&:before {
+			display: none;
+		}
+		.e-preview-spinner {
+			display: block;
+		}
+	}
+	.e-input {
+		width: 100%;
+		padding-right: 105px;
+		&.previewing {
+			padding-right: 12px;
+		}
+		&.invalid {
+			outline: 1px solid $SIS-RED;
+			color: $SIS-RED;
+		}
+	}
+	.e-btn-wrap {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 4px;
+	}
+	.e-preview-wrap {
+		margin: 10px 0 0;
+	}
+}
